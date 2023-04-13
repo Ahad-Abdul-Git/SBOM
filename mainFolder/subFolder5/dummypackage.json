@@ -1,0 +1,93 @@
+{
+    "name": "mender-gui",
+    "version": "1.0.0",
+    "description": "Graphical user interface for Mender.",
+    "dependencies": {
+      "JUSTWRONG": "^11.10.6"
+    },
+    "browserslist": [
+      ">0.2%",
+      "last 5 versions",
+      "not dead",
+      "not op_mini all"
+    ],
+    "engines": {
+      "node": ">=14",
+      "npm": ">=8"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/mendersoftware/gui.git"
+    },
+    "type": "module",
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged",
+        "post-commit": "sh ${MENDER_TESTING}/check_commits.sh"
+      }
+    },
+    "jest": {
+      "collectCoverage": true,
+      "collectCoverageFrom": [
+        "src/**/*.{js,jsx}"
+      ],
+      "coveragePathIgnorePatterns": [
+        "/node_modules/",
+        "/themes/"
+      ],
+      "coverageReporters": [
+        "lcov",
+        "cobertura",
+        "text"
+      ],
+      "setupFiles": [
+        "jest-canvas-mock"
+      ],
+      "setupFilesAfterEnv": [
+        "<rootDir>/tests/setupTests.js"
+      ],
+      "snapshotSerializers": [
+        "@emotion/jest/serializer"
+      ],
+      "testEnvironment": "jest-environment-jsdom",
+      "testMatch": [
+        "<rootDir>/src/**/__tests__/**/*.js",
+        "<rootDir>/src/**/*.{spec,test}.js"
+      ],
+      "fakeTimers": {
+        "enableGlobally": true
+      },
+      "transform": {
+        "\\.[j|t]sx?$": "babel-jest",
+        "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/tests/assetsTransformer.js"
+      },
+      "transformIgnorePatterns": [
+        "<rootDir>/node_modules/(?!xterm-for-react)"
+      ],
+      "moduleNameMapper": {
+        "\\.(css|less)$": "<rootDir>/tests/cssTransform.js"
+      },
+      "watchPlugins": [
+        "jest-watch-typeahead/filename",
+        "jest-watch-typeahead/testname"
+      ]
+    },
+    "scripts": {
+      "build": "webpack --mode production --entry ./src/js/main.js",
+      "disclaim": "yarn licenses generate-disclaimer > disclaimer.txt",
+      "lint": "eslint src && eslint tests",
+      "lint-fix": "eslint --fix src && eslint --fix tests",
+      "serve": "./entrypoint.sh && webpack serve  --mode development --entry ./src/js/main.js",
+      "test": "node test.js",
+      "watch": "webpack --watch --mode development --entry ./src/js/main.js"
+    },
+    "author": "Northern.tech AS",
+    "license": "Apache-2.0",
+    "bugs": {
+      "url": "https://northerntech.atlassian.net/projects/MEN"
+    },
+    "homepage": "https://mender.io/",
+    "lint-staged": {
+      "*.js": "eslint --cache --fix"
+    }
+  }
